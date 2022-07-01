@@ -58,18 +58,15 @@ const App = () => {
             text: newTask,
             completed: false
         };
-        console.log('task: ',task);
         setTask([...task, data]);
         setNewTask('');
     };
 
     const deleteTaskHandler = (id) => {
-        console.log('id: ',id);
         setTask(task.filter((t) => t.id !== id));
     };
 
     const confirmTaskHandler = (id) => {
-        console.log('id: ',id);
         const confirmTask = task.map((t) => {
             return {
                 id: t.id,
@@ -77,13 +74,7 @@ const App = () => {
                 completed: t.id === id ? !t.completed : t.completed
             }
         });
-        console.log('confirmTask: ',confirmTask);
         setTask(confirmTask);
-    };
-
-    const [checked, setChecked] = useState(false);
-    const checkboxHandler = (e) => {
-        console.log('e: ',e);
     };
 
     const width = Dimensions.get('window').width;
@@ -106,7 +97,6 @@ const App = () => {
                     {task.map((data) => {
                         return (
                             <Task
-                                key={data.key}
                                 item={data}
                                 deleteTaskHandler={deleteTaskHandler}
                                 confirmTaskHandler={confirmTaskHandler}
