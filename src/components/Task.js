@@ -37,11 +37,19 @@ const Task = ({ item, deleteTaskHandler, confirmTaskHandler, updateTaskHandler }
         }
     };
 
+    const onBlur = () => {
+        if (isEditing) {
+            setIsEditing(false);
+            setText(item.text);
+        }
+    };
+
     return isEditing ? (
         <Input
             value={text}
             onChangeText={text => setText(text)}
             onSubmitEditing={submitEditingHandler}
+            onBlur={onBlur}
         />
         )
         :
@@ -66,7 +74,7 @@ const Task = ({ item, deleteTaskHandler, confirmTaskHandler, updateTaskHandler }
 };
 
 Task.propTypes = {
-    text: PropTypes.string.isRequired,
+    item: PropTypes.object.isRequired,
     deleteTaskHandler: PropTypes.func.isRequired,
     confirmTaskHandler: PropTypes.func.isRequired,
     completed: PropTypes.bool,

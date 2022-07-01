@@ -85,6 +85,8 @@ const App = () => {
         setTask(t);
     };
 
+    const onBlur = () => setNewTask('');
+
     const width = Dimensions.get('window').width;
 
     return (
@@ -100,6 +102,7 @@ const App = () => {
                     value={newTask}
                     onChangeText={textChangeHandler}
                     onSubmitEditing={addTaskHandler}
+                    onBlur={onBlur}
                 />
                 <List width={width}>
                     {task.map((data) => {

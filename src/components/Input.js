@@ -16,7 +16,14 @@ const StyledInput = styled.TextInput.attrs(({ theme }) => ({
     color: ${({ theme }) => theme.text};
 `;
 
-const Input = ({placeholder, value, onChangeText, onSubmitEditing}) => {
+const Input = (
+    {
+        placeholder,
+        value,
+        onChangeText,
+        onSubmitEditing,
+        onBlur
+    }) => {
     const width = Dimensions.get('window').width;
     return (
         <StyledInput
@@ -26,6 +33,7 @@ const Input = ({placeholder, value, onChangeText, onSubmitEditing}) => {
             value={value ? value : ''}
             onChangeText={onChangeText}
             onSubmitEditing={onSubmitEditing}
+            onBlur={onBlur}
             autoCapitalize={'none'} // 첫 글자 대문자 여부
             autoCorrect={false} // 자동 수정 기능
             returnKeyType={'done'} // 키보드 완료 버튼 설정
@@ -38,7 +46,8 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     value: PropTypes.string.isRequired,
     onChangeText: PropTypes.func.isRequired,
-    onSubmitEditing: PropTypes.func.isRequired,
+    onSubmitEditing: PropTypes.func,
+    onBlur: PropTypes.func,
 };
 
 export default Input;
