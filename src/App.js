@@ -77,6 +77,14 @@ const App = () => {
         setTask(confirmTask);
     };
 
+    const updateTaskHandler = (item) => {
+        console.log('item: ',item);
+        const data = task.filter((t) => t.id !== item.id);
+        const t = [...data, item];
+        t.sort(t.id);
+        setTask(t);
+    };
+
     const width = Dimensions.get('window').width;
 
     return (
@@ -89,7 +97,7 @@ const App = () => {
                 <Title>TODO LIST!</Title>
                 <Input
                     placeholder={'+ Add a Task'}
-                    value={task}
+                    value={newTask}
                     onChangeText={textChangeHandler}
                     onSubmitEditing={addTaskHandler}
                 />
@@ -100,6 +108,7 @@ const App = () => {
                                 item={data}
                                 deleteTaskHandler={deleteTaskHandler}
                                 confirmTaskHandler={confirmTaskHandler}
+                                updateTaskHandler={updateTaskHandler}
                             />
                         )
                     })}

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import PropTypes from "prop-types";
 import IconButton from './IconButton';
+import Input from './Input';
 
 const Container = styled.View`
   flex-direction: row;
@@ -19,8 +20,32 @@ const Contents = styled.Text`
   text-decoration-line: ${({ completed }) => completed ? 'line-through' : 'none'};
 `;
 
-const Task = ({ item, deleteTaskHandler, confirmTaskHandler }) => {
-    return (
+const Task = ({ item, deleteTaskHandler, confirmTaskHandler, updateTaskHandler }) => {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [text, setText] = useState(item.text);
+
+    const activateUpdateHandler = () => {
+        setIsEditing(true);
+    };
+
+    const submitEditingHandler = () => {
+        if (isEditing) {
+            item.text = text;
+            setIsEditing(false);
+            updateTaskHandler(item)
+        }
+    };
+
+    return isEditing ? (
+        <Input
+            value={text}
+            onChangeText={text => setText(text)}
+            onSubmitEditing={submitEditingHandler}
+        />
+        )
+        :
+        (
         <Container key={item.key}>
             <IconButton
                 type={item.completed ? 'check-square' : 'square-o'}
@@ -29,7 +54,7 @@ const Task = ({ item, deleteTaskHandler, confirmTaskHandler }) => {
                 completed={item.completed}
             />
             <Contents completed={item.completed}>{item.text}</Contents>
-            {item.completed || <IconButton type={'pencil'}/>}
+            {item.completed || <IconButton type={'pencil'} onPressOut={activateUpdateHandler}/>}
             <IconButton
                 type={'trash-o'}
                 id={item.id}
