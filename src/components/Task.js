@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from "prop-types";
-import { theme } from "../theme";
 import IconButton from './IconButton';
 
 const Container = styled.View`
@@ -16,16 +15,27 @@ const Container = styled.View`
 const Contents = styled.Text`
   flex: 1;
   font-size: 18px;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme, completed }) => ( completed ? theme.done : theme.text )};
+  text-decoration-line: ${({ completed }) => completed ? 'line-through' : 'none'};
 `;
 
 const Task = ({ item, deleteTaskHandler, confirmTaskHandler }) => {
     return (
-        <Container>
-            <IconButton type={item.completed ? 'check-square' : 'square-o'} id={item.id} onPressOut={confirmTaskHandler}/>
-            <Contents>{item.text}</Contents>
-            <IconButton type={'pencil'}/>
-            <IconButton type={'trash-o'} id={item.id} onPressOut={deleteTaskHandler}/>
+        <Container key={item.key}>
+            <IconButton
+                type={item.completed ? 'check-square' : 'square-o'}
+                id={item.id}
+                onPressOut={confirmTaskHandler}
+                completed={item.completed}
+            />
+            <Contents completed={item.completed}>{item.text}</Contents>
+            {item.completed || <IconButton type={'pencil'}/>}
+            <IconButton
+                type={'trash-o'}
+                id={item.id}
+                onPressOut={deleteTaskHandler}
+                completed={item.completed}
+            />
         </Container>
     )
 };
